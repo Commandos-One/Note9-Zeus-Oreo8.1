@@ -240,7 +240,7 @@ elif [ "$1" == "crownlte" ]; then
 		git checkout Endurance-Kernel-P
 		git reset --hard
 	elif [ "$2" == "oreo" ]; then
-		git checkout Endurance-Kernel
+		git checkout THEBOSS-Zeus
 		git reset --hard
 	elif [ "$2" == "9.0-aosp" ]; then
 		git checkout Endurance-Kernel-P-AOSP
