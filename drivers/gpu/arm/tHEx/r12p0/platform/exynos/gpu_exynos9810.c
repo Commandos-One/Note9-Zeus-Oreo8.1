@@ -69,6 +69,9 @@ void __iomem *g3d1_outstanding_regs;
 
 /*  clk,vol,abb,min,max,down stay, pm_qos mem, pm_qos int, pm_qos cpu_kfc_min, pm_qos cpu_egl_max */
 static gpu_dvfs_info gpu_dvfs_table_default[] = {
+	{775, 775000, 0, 78, 100, 9, 0, 1794000, 400000, 1950000, CPU_MAX},
+	{750, 768750, 0, 78, 100, 9, 0, 1794000, 400000, 1950000, CPU_MAX},
+	{730, 762500, 0, 78, 100, 9, 0, 1794000, 400000, 1950000, CPU_MAX},
 	{700, 756250, 0, 78, 100, 9, 0, 1794000, 400000, 1950000, CPU_MAX},
 	{670, 750000, 0, 78, 100, 9, 0, 1794000, 400000, 1950000, CPU_MAX},
 	{650, 743750, 0, 78, 100, 9, 0, 1794000, 400000, 1950000, CPU_MAX},

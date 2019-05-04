@@ -34,7 +34,7 @@ DEFAULT_DEVICE=starlte
 DEFAULT_DEVICE_DIRECTORY="$STAR_KERNEL_DIRECTORY"
 
 # Kernel Source Paths
-CROWN_KERNEL_DIRECTORY=~/kernels/builds/Note9-Zeus-Oreo8.1/
+CROWN_KERNEL_DIRECTORY=~/kernels/Note9-Zeus-Oreo8.1/
 TOOLCHAINS_DIRECTORY=~/kernels/toolchains/
 
 # Android Image Kitchen paths
