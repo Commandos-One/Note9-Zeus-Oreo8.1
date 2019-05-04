@@ -38,26 +38,10 @@ CROWN_KERNEL_DIRECTORY=~/kernels/builds/crownlte-endurance/
 TOOLCHAINS_DIRECTORY=~/kernels/toolchains/
 
 # Android Image Kitchen paths
-AIK_PIE_960=~/PIE-960/
-AIK_PIE_965=~/PIE-965/
-AIK_PIE_N960=~/PIE-N960/
-AIK_OREO_960=~/APGK-960/
-AIK_OREO_965=~/APGK-965/
-AIK_OREO_N960=~/TW-N960/
-AIK_PIE_AOSP=~/PIE-960-AOSP/
-AIK_OREO_AOSP_960=~/AOSP-960/
-AIK_OREO_AOSP_965=~/AOSP-965/
+AIK_OREO_N960=~/kernels/TW-N960/
 
 # Zip directories
-ZIP_PIE=~/kernels/zip-pie/
-ZIP_PIE_N960=~/kernels/zip-note-pie/
-ZIP_OREO=~/kernels/zip/
 ZIP_OREO_N960=~/kernels/zip-note/
-ZIP_PIE_AOSP_S9=~/kernels/zip-aosp-pie/
-ZIP_PIE_AOSP_N960=~/kernels/zip-note-pie-aosp/
-ZIP_GSI_S9=~/kernels/zip-gsi/
-ZIP_GSI_N960=~/kernels/zip-note-gsi/
-ZIP_OREO_AOSP_S9=~/kernels/zip-aosp/
 
 # Password for AIK sudo
 PASSWORD=
