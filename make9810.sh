@@ -1,5 +1,5 @@
 #!/bin/bash
-## Exynos 9810 Endurance Kernel Build Script by @Eamo5
+## Exynos 9810 Endurance Kernel Build Script by @Eamo5 & Modified by THEBOSS
 ## Read before usage!
 
 ## Syntax
@@ -34,7 +34,6 @@ DEFAULT_DEVICE=starlte
 DEFAULT_DEVICE_DIRECTORY="$STAR_KERNEL_DIRECTORY"
 
 # Kernel Source Paths
-STAR_KERNEL_DIRECTORY=~/kernels/builds/starlte-endurance/
 CROWN_KERNEL_DIRECTORY=~/kernels/builds/crownlte-endurance/
 TOOLCHAINS_DIRECTORY=~/kernels/toolchains/
 
