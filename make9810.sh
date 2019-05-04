@@ -26,7 +26,7 @@ UPSTREAM=4\.9\.169
 PIE_OLD_VERSION=2\.0\.10
 PIE_VERSION=2\.0\.11
 OREO_OLD_VERSION=1\.2\.16
-OREO_VERSION=1\.3\.20
+OREO_VERSION=1\.3\.73
 
 # Default Device
 # Used as a backup when no valid device is defined
@@ -34,7 +34,7 @@ DEFAULT_DEVICE=starlte
 DEFAULT_DEVICE_DIRECTORY="$STAR_KERNEL_DIRECTORY"
 
 # Kernel Source Paths
-CROWN_KERNEL_DIRECTORY=~/kernels/builds/crownlte-endurance/
+CROWN_KERNEL_DIRECTORY=~/kernels/builds/Note9-Zeus-Oreo8.1/
 TOOLCHAINS_DIRECTORY=~/kernels/toolchains/
 
 # Android Image Kitchen paths
