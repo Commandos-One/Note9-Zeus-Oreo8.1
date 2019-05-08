@@ -49,6 +49,7 @@
 #include <linux/moduleparam.h>
 #include <linux/uaccess.h>
 #include <linux/nmi.h>
+#include <linux/exynos-ss.h>
 
 #include "workqueue_internal.h"
 
@@ -289,7 +290,7 @@ module_param_named(disable_numa, wq_disable_numa, bool, 0444);
 
 /* see the comment above the definition of WQ_POWER_EFFICIENT */
 static bool wq_power_efficient = IS_ENABLED(CONFIG_WQ_POWER_EFFICIENT_DEFAULT);
-module_param_named(power_efficient, wq_power_efficient, bool, 0444);
+module_param_named(power_efficient, wq_power_efficient, bool, 0644);
 
 static bool wq_numa_enabled;		/* unbound NUMA affinity enabled */
 
@@ -1636,7 +1637,7 @@ static void worker_enter_idle(struct worker *worker)
 		mod_timer(&pool->idle_timer, jiffies + IDLE_WORKER_TIMEOUT);
 
 	/*
-	 * Sanity check nr_running.  Because wq_unbind_fn() releases
+	 * Sanity check nr_running.  Because unbind_workers() releases
 	 * pool->lock between setting %WORKER_UNBOUND and zapping
 	 * nr_running, the warning may trigger spuriously.  Check iff
 	 * unbind is not in progress.
@@ -2089,7 +2090,9 @@ __acquires(&pool->lock)
 	lock_map_acquire_read(&pwq->wq->lockdep_map);
 	lock_map_acquire(&lockdep_map);
 	trace_workqueue_execute_start(work);
+	exynos_ss_work(worker, worker->task, worker->current_func, ESS_FLAG_IN);
 	worker->current_func(work);
+	exynos_ss_work(worker, worker->task, worker->current_func, ESS_FLAG_OUT);
 	/*
 	 * While we must be careful to not use "work" after this, the trace
 	 * point will only record its address.
@@ -4500,9 +4503,8 @@ void show_workqueue_state(void)
  * cpu comes back online.
  */
 
-static void wq_unbind_fn(struct work_struct *work)
+static void unbind_workers(int cpu)
 {
-	int cpu = smp_processor_id();
 	struct worker_pool *pool;
 	struct worker *worker;
 
@@ -4699,12 +4701,13 @@ int workqueue_online_cpu(unsigned int cpu)
 
 int workqueue_offline_cpu(unsigned int cpu)
 {
-	struct work_struct unbind_work;
 	struct workqueue_struct *wq;
 
 	/* unbinding per-cpu workers should happen on the local CPU */
-	INIT_WORK_ONSTACK(&unbind_work, wq_unbind_fn);
-	queue_work_on(cpu, system_highpri_wq, &unbind_work);
+	if (WARN_ON(cpu != smp_processor_id()))
+		return -1;
+
+	unbind_workers(cpu);
 
 	/* update NUMA affinity of unbound workqueues */
 	mutex_lock(&wq_pool_mutex);
@@ -4712,9 +4715,6 @@ int workqueue_offline_cpu(unsigned int cpu)
 		wq_update_unbound_numa(wq, cpu, false);
 	mutex_unlock(&wq_pool_mutex);
 
-	/* wait for per-cpu unbinding to finish */
-	flush_work(&unbind_work);
-	destroy_work_on_stack(&unbind_work);
 	return 0;
 }
 

@@ -133,9 +133,6 @@ void prepare_namespace(void);
 void __init load_default_modules(void);
 int __init init_rootfs(void);
 
-#if defined(CONFIG_DEBUG_RODATA) || defined(CONFIG_DEBUG_SET_MODULE_RONX)
-extern bool rodata_enabled;
-#endif
 #ifdef CONFIG_DEBUG_RODATA
 void mark_rodata_ro(void);
 #endif
@@ -215,6 +212,12 @@ extern bool initcall_debug;
 	static initcall_t __initcall_##fn			\
 	__used __section(.security_initcall.init) = fn
 
+#ifdef CONFIG_DEFERRED_INITCALLS
+#define deferred_initcall(fn, id) \
+	static initcall_t __initcall_##fn##id __used \
+	__attribute__((__section__(".deferred_initcall" #id ".init"))) = fn
+#endif
+
 struct obs_kernel_param {
 	const char *str;
 	int (*setup_func)(char *);
@@ -268,7 +271,15 @@ void __init parse_early_param(void);
 void __init parse_early_options(char *cmdline);
 #endif /* __ASSEMBLY__ */
 
+#ifdef CONFIG_DEFERRED_INITCALLS
+#define deferred_module_init(fn) deferred_initcall(fn, 0)
+#define deferred_module_init_sync(fn) deferred_initcall(fn, 0s)
+#endif
 #else /* MODULE */
+
+#ifdef CONFIG_DEFERRED_INITCALLS
+#define deferred_module_init(fn) module_init(fn)
+#endif
 
 #define __setup_param(str, unique_id, fn)	/* nothing */
 #define __setup(str, func) 			/* nothing */

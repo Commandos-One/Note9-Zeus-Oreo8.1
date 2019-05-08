@@ -534,7 +534,7 @@ sg_read(struct file *filp, char __user *buf, size_t count, loff_t * ppos)
 		old_hdr->result = EIO;
 		break;
 	case DID_ERROR:
-		old_hdr->result = (srp->sense_b[0] == 0 && 
+		old_hdr->result = (srp->sense_b[0] == 0 &&
 				  hp->masked_status == GOOD) ? 0 : EIO;
 		break;
 	default:
@@ -1169,14 +1169,14 @@ static long sg_compat_ioctl(struct file *filp, unsigned int cmd_in, unsigned lon
 		return -ENXIO;
 
 	sdev = sdp->device;
-	if (sdev->host->hostt->compat_ioctl) { 
+	if (sdev->host->hostt->compat_ioctl) {
 		int ret;
 
 		ret = sdev->host->hostt->compat_ioctl(sdev, cmd_in, (void __user *)arg);
 
 		return ret;
 	}
-	
+
 	return -ENOIOCTLCMD;
 }
 #endif
@@ -1670,7 +1670,7 @@ init_sg(void)
 	else
 		def_reserved_size = sg_big_buff;
 
-	rc = register_chrdev_region(MKDEV(SCSI_GENERIC_MAJOR, 0), 
+	rc = register_chrdev_region(MKDEV(SCSI_GENERIC_MAJOR, 0),
 				    SG_MAX_DEVS, "sg");
 	if (rc)
 		return rc;
@@ -2102,12 +2102,11 @@ sg_get_rq_mark(Sg_fd * sfp, int pack_id)
 		if ((1 == resp->done) && (!resp->sg_io_owned) &&
 		    ((-1 == pack_id) || (resp->header.pack_id == pack_id))) {
 			resp->done = 2;	/* guard against other readers */
-			write_unlock_irqrestore(&sfp->rq_list_lock, iflags);
-			return resp;
+			break;
 		}
 	}
 	write_unlock_irqrestore(&sfp->rq_list_lock, iflags);
-	return NULL;
+	return resp;
 }
 
 /* always adds to end of list */
@@ -2332,7 +2331,7 @@ static const struct file_operations adio_fops = {
 };
 
 static int sg_proc_single_open_dressz(struct inode *inode, struct file *file);
-static ssize_t sg_proc_write_dressz(struct file *filp, 
+static ssize_t sg_proc_write_dressz(struct file *filp,
 		const char __user *buffer, size_t count, loff_t *off);
 static const struct file_operations dressz_fops = {
 	.owner = THIS_MODULE,
@@ -2472,7 +2471,7 @@ static int sg_proc_single_open_adio(struct inode *inode, struct file *file)
 	return single_open(file, sg_proc_seq_show_int, &sg_allow_dio);
 }
 
-static ssize_t 
+static ssize_t
 sg_proc_write_adio(struct file *filp, const char __user *buffer,
 		   size_t count, loff_t *off)
 {
@@ -2493,7 +2492,7 @@ static int sg_proc_single_open_dressz(struct inode *inode, struct file *file)
 	return single_open(file, sg_proc_seq_show_int, &sg_big_buff);
 }
 
-static ssize_t 
+static ssize_t
 sg_proc_write_dressz(struct file *filp, const char __user *buffer,
 		     size_t count, loff_t *off)
 {
