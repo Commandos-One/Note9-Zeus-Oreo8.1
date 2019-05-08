@@ -5030,8 +5030,8 @@
 			dm-type = <DM_CPU_CL1>;
 
 			min-freq = <598000>;
-			max-freq = <1586000>;
-			policy-max = <1586000>;
+			max-freq = <1794000>;
+			policy-max = <1794000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <5>;
@@ -5087,7 +5087,7 @@
 		sensors = <94>;		/* 0x5E */
 		sensing_mode = "balance";
 		hotplug_enable = <1>;
-		hotplug_in_threshold = <94>;
+		hotplug_in_threshold = <96>;
 		hotplug_out_threshold = <99>;
 		#include "exynos9810-tmu-sensor-conf.dtsi"
 	};
