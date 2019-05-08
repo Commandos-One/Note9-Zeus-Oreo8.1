@@ -30,8 +30,8 @@ OREO_VERSION=1\.3\.73\.1
 
 # Default Device
 # Used as a backup when no valid device is defined
-DEFAULT_DEVICE=starlte
-DEFAULT_DEVICE_DIRECTORY="$STAR_KERNEL_DIRECTORY"
+DEFAULT_DEVICE=crownlte
+DEFAULT_DEVICE_DIRECTORY="$CROWN_KERNEL_DIRECTORY"
 
 # Kernel Source Paths
 CROWN_KERNEL_DIRECTORY=~/kernels/Note9-Zeus-Oreo8.1/
@@ -88,9 +88,9 @@ oreo_oc_crown () {
 	sed -i 's/upscale_ratio_table = < 80 1261000 95 >;/upscale_ratio_table = < 80 1066000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	sed -i 's/unsigned long arg_cpu_max_c2 = 2704000;/unsigned long arg_cpu_max_c2 = 2964000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
 	sed -i 's/static unsigned long arg_cpu_max_c1 = 1794000;/static unsigned long arg_cpu_max_c1 = 2002000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
-	sed -i 's/quad_freq = <1794000>;/quad_freq = <1794000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	sed -i 's/triple_freq = <1794000>;/triple_freq = <1794000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	sed -i 's/dual_freq = <2314000>;/dual_freq = <2314000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	sed -i 's/triple_freq = <1794000>;/triple_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	sed -i 's/dual_freq = <2314000>;/dual_freq = <2106000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	sed -i 's/2158000/2106000/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 }
 
@@ -260,7 +260,7 @@ else
 	echo "Did not export a known toolchain... Defaulting to GCC 4.9"
 	echo "Correct syntax is as follows: $ ./make9810.sh <device-variant> <branch> <gcc-version> <oc / uc> <test / release>"
 	echo "For more information, run $ ./make9810.sh help"
-	export CROSS_COMPILE="ccache "$TOOLCHAINS_DIRECTORY"aarch64-linux-android-4.9/bin/aarch64-linux-android-"
+	export CROSS_COMPILE="ccache "$TOOLCHAINS_DIRECTORY"gcc-arm-8.3-2019.03-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-"
 fi
 
 ## Build Specific Preperation
@@ -317,6 +317,7 @@ elif [ "$2" == "oreo" ]; then
 	elif [ "$1" == "crownlte" ] && [ "$4" == "oc" ]; then
 		sed -i "s/-Endurance-Kernel-N9/-THEBOSS-Zeus-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
 		sed -i "s/-Endurance-Kernel-N9/-THEBOSS-Zeus-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
+		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 		oreo_oc_crown
 	elif [ "$1" == "crownlte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
 		sed -i "s/-Endurance-Kernel-N9/-THEBOSS-Zeus-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
