@@ -1,4 +1,4 @@
-#**Welcome to THEBOSS World!**
+# Welcome to THEBOSS World!
 ![Image](https://i.imgur.com/3gjJHgQ.png)
 
 
