@@ -1,7 +1,7 @@
+[Image](https://i.imgur.com/x4nBqVy.jpg)
 ## Welcome to THEBOSS World!
 
 All kind of kernel optimization and speed... chosen carefully and precisely... collected and optimized specifically for our beloved Note 9 (N960F/FD) with a touch of love & passion... 
-
 
 [- Overclocking is about the passion, not about how much you clock]
 [- Overclocking is not about the performance gains, it is about the passion]
@@ -37,7 +37,7 @@ Changelogs and Updates:-
 To know how much I update this kerenl.. just simply follow me and also I update it through my free time... so... expect some delays!
 Always check this link for latest stable releases :)
 
-(https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/releases)
+[THEBOSS-Zeus N9 Kernel](https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/releases)
 
 
 # Notes
