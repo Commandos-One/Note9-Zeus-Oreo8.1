@@ -27,7 +27,7 @@ Changelogs and Updates:-
 - Safety mechanism is not touched to avoid hardware damage
 - CPU is more intelligent for keeping apps for little cores and heavy game are for BIG cores [with decreased Power & Heat]
 - All kind of security is disabled
-- Complied with the latest GCC Compiler Clang 8.3 for speed & better optimization
+- Complied with the latest GCC Compiler Clang 8.3 [Modded Special Version Made By ME] for speed & better optimization
 - IO & TCP mostly all available
 - Always updated to the latest linux upstream version
 - There is soo much more.. I can't remember...You tell me... :D
