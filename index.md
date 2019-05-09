@@ -1,37 +1,32 @@
-## Welcome to GitHub Pages
+## Welcome to THEBOSS World!
 
-You can use the [editor on GitHub](https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+All kind of kernel optimization and speed... chosen carefully and precisely... collected and optimized specifically for our beloved Note 9 (N960F/FD) with a touch of love & passion... 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+[- Overclocking is about the passion, not about how much you clock]
+[- Overclocking is not about the performance gains, it is about the passion]
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Changelogs and Updates:-
+- Disabled vaultkeeper through ramdisk modification for being useless & less bloat
+- Disabled bunch of security options that proved through my experience causes overhead or performance degradation in general usage or operations
+- Disabled Unnecessary option or features that are not being used
+- Updated CPU scaling for more battery life while still using 2.0Ghz litter cores & 2.9Ghz big cores frequencies
+- Undervolted GPU more across all frequencies for better power saving & less heat [Although no heat issues are reported] :)
+- Optimized & Cleaned the Code further using my own method;)
+- Improved CPU idle power consumption.. (means more battery savings!)
+- Optimized CPU for big.LITTLE cores flags & executions
+- Removed all kinds of logging , debugging, tracing,etc... for smooth operation
+- GPU OC up to 775Mhz while taking consideration on voltage.. [Customized Voltage] (Might be unstable if G3D ----ASV value under 4!!] (You Have Been Warned]
+- OC CPU Big to 2.9Ghz and Small to 2Ghz
+- Customized CPU Buses to reflect real world usage and to decrease power consumption
+- Customized CPU freq scaling for more battery life and decreased power consumption
+- This kernel made for Gaming on Mind.. so expect higher FPS performance [Depends on your ASV level]
+- Safety mechanism is not touched to avoid hardware damage
+- CPU is more intelligent for keeping apps for little cores and heavy game are for BIG cores [with decreased Power & Heat]
+- All kind of security is disabled
+- Complied with the latest GCC Compiler Clang 8.3 for speed & better optimization
+- IO & TCP mostly all available
+- Always updated to the latest linux upstream version
+- There is soo much more.. I can't remember...You tell me... :D
