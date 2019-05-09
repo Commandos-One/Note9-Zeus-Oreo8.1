@@ -7,7 +7,7 @@ All kind of kernel optimization and speed... chosen carefully and precisely... c
 [- Overclocking is not about the performance gains, it is about the passion]
 
 
-
+# Changelogs
 Changelogs and Updates:-
 - Disabled vaultkeeper through ramdisk modification for being useless & less bloat
 - Disabled bunch of security options that proved through my experience causes overhead or performance degradation in general usage or operations
@@ -30,3 +30,7 @@ Changelogs and Updates:-
 - IO & TCP mostly all available
 - Always updated to the latest linux upstream version
 - There is soo much more.. I can't remember...You tell me... :D
+## Updates Frequency
+To know how much I update this kerenl.. just simply follow me and also I update it through my free time... so... expect some delays!
+### Notes
+I'm not responible for anything... you should know what you are doing and if you don't know what you are doing.. then you shouldn't even root your smartphone on the first place!
