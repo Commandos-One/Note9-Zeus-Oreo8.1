@@ -1,7 +1,9 @@
-[Image](https://i.imgur.com/x4nBqVy.jpg)
-## Welcome to THEBOSS World!
+#**Welcome to THEBOSS World!**
+![Image](https://i.imgur.com/3gjJHgQ.png)
 
-All kind of kernel optimization and speed... chosen carefully and precisely... collected and optimized specifically for our beloved Note 9 (N960F/FD) with a touch of love & passion... 
+
+# Intro
+All kind of kernel optimization and speed and battery life... combination of **A**ll **I**n **O**ne Kernel-**AIO**! Chosen carefully and precisely... collected and optimized specifically for our beloved Note 9 (N960F/FD) with a touch of love & passion... 
 
 [- Overclocking is about the passion, not about how much you clock]
 [- Overclocking is not about the performance gains, it is about the passion]
@@ -42,3 +44,6 @@ Always check this link for latest stable releases :)
 
 # Notes
 I'm not responible for anything... you should know what you are doing and if you don't know what you are doing.. then you shouldn't even root your smartphone on the first place!
+
+Enjoy...                                                                                                                               
+![GitHub Logo](https://i.imgur.com/x4nBqVy.jpg)
