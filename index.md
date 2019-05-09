@@ -9,6 +9,7 @@ All kind of kernel optimization and speed... chosen carefully and precisely... c
 
 # Changelogs
 Changelogs and Updates:-
+- Fully Supports F2FS to ./data & ./cache ;)
 - Disabled vaultkeeper through ramdisk modification for being useless & less bloat
 - Disabled bunch of security options that proved through my experience causes overhead or performance degradation in general usage or operations
 - Disabled Unnecessary option or features that are not being used
