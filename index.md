@@ -31,9 +31,14 @@ Changelogs and Updates:-
 - IO & TCP mostly all available
 - Always updated to the latest linux upstream version
 - There is soo much more.. I can't remember...You tell me... :D
+
+
 ## Updates Frequency
 To know how much I update this kerenl.. just simply follow me and also I update it through my free time... so... expect some delays!
 Always check this link for latest stable releases :)
-https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/releases
-### Notes
+
+(https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/releases)
+
+
+# Notes
 I'm not responible for anything... you should know what you are doing and if you don't know what you are doing.. then you shouldn't even root your smartphone on the first place!
