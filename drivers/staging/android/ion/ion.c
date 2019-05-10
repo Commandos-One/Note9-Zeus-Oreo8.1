@@ -946,18 +946,12 @@ static int ion_debug_client_show(struct seq_file *s, void *unused)
 		mutex_unlock(&debugfs_mutex);
 		return 0;
 	}
-	
-#ifdef CONFIG_ION_EXYNOS_STAT_LOG	
+
 	seq_printf(s, "%16.s %4.s %16.s %4.s %10.s %8.s %9.s\n",
 		   "task", "pid", "thread", "tid", "size", "# procs", "flag");
 	seq_printf(s, "----------------------------------------------"
 			"--------------------------------------------\n");
-#else
-	seq_printf(s, "%16.s %4.s %10.s %8.s %9.s\n",
-		   "task", "pid", "size", "# procs", "flag");
-	seq_printf(s, "----------------------------------------------"
-			"--------------------------------------------\n");
-#endif
+
 	mutex_lock(&client->lock);
 	for (n = rb_first(&client->handles); n; n = rb_next(n)) {
 		struct ion_handle *handle = rb_entry(n, struct ion_handle,
@@ -969,16 +963,10 @@ static int ion_debug_client_show(struct seq_file *s, void *unused)
 			names[id] = buffer->heap->name;
 		sizes[id] += buffer->size;
 		sizes_pss[id] += (buffer->size / buffer->handle_count);
-#ifdef CONFIG_ION_EXYNOS_STAT_LOG
 		seq_printf(s, "%16.s %4u %16.s %4u %10zu %8d %9lx\n",
 			   buffer->task_comm, buffer->pid,
 				buffer->thread_comm, buffer->tid, buffer->size,
 				buffer->handle_count, buffer->flags);
-#else
-		seq_printf(s, "%16.s %4u %10zu %8d %9lx\n",
-			   buffer->task_comm, buffer->pid,
-				buffer->size, buffer->handle_count, buffer->flags);
-#endif
 	}
 	mutex_unlock(&client->lock);
 	mutex_unlock(&debugfs_mutex);
@@ -1265,6 +1253,7 @@ static void ion_vm_close(struct vm_area_struct *vma)
 	struct ion_buffer *buffer = vma->vm_private_data;
 	struct ion_vma_list *vma_list, *tmp;
 
+	pr_debug("%s\n", __func__);
 	mutex_lock(&buffer->lock);
 	list_for_each_entry_safe(vma_list, tmp, &buffer->vmas, list) {
 		if (vma_list->vma != vma)
@@ -1804,6 +1793,7 @@ static int ion_release(struct inode *inode, struct file *file)
 {
 	struct ion_client *client = file->private_data;
 
+	pr_debug("%s: %d\n", __func__, __LINE__);
 	ion_client_destroy(client);
 	return 0;
 }
@@ -1815,6 +1805,7 @@ static int ion_open(struct inode *inode, struct file *file)
 	struct ion_client *client;
 	char debug_name[64];
 
+	pr_debug("%s: %d\n", __func__, __LINE__);
 	snprintf(debug_name, 64, "%u", task_pid_nr(current->group_leader));
 	client = ion_client_create(dev, debug_name);
 	if (IS_ERR(client))
