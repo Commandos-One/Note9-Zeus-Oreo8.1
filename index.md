@@ -3,7 +3,7 @@
 
 
 # Intro
-All kind of kernel optimization and speed and battery life... combination of **A**ll **I**n **O**ne Kernel-**AIO**! Chosen carefully and precisely... collected and optimized specifically for our beloved Note 9 (N960F/FD) with a touch of love & passion... 
+All kind of kernel optimization and speed and battery life... combination of **A**ll **I**n **O**ne Kernel-**AIO**! Chosen carefully and precisely... collected and optimized specifically for our beloved Note 9 (N960F/FD) with a touch of love & passion...
 
 # Appreciation and Credits-VIP
 Thanks for the help from my friend @Tike420 who helped me and motivated me to push N9 kernel development forward.. he was the one who is testing my kernels and also he is the one who wanted to build TWRP with F2FS support but we got into issues.. but he was the one who also guided me for F2FS related source codes and alot of things too! 
@@ -30,6 +30,7 @@ Changelogs and Updates:-
 - Optimized CPU for big.LITTLE cores flags & executions
 - Removed all kinds of logging , debugging, tracing,etc... for smooth operation
 - GPU OC up to 775Mhz while taking consideration on voltage.. [Customized Voltage] (Might be unstable if G3D ----ASV value under 4!!] (You Have Been Warned]
+- GPU decreased minimum frequency for more battery life
 - OC CPU Big to 2.9Ghz and Small to 2Ghz
 - Customized CPU Buses to reflect real world usage and to decrease power consumption
 - Customized CPU freq scaling for more battery life and decreased power consumption
@@ -37,8 +38,8 @@ Changelogs and Updates:-
 - Safety mechanism is not touched to avoid hardware damage
 - CPU is more intelligent for keeping apps for little cores and heavy game are for BIG cores [with decreased Power & Heat]
 - All kind of security is disabled
-- Complied with the latest GCC Compiler Clang 8.3 [Modded Special Version Made By ME] for speed & better optimization
-- IO & TCP mostly all available
+- Complied with the latest GCC Compiler 8.3 [Modded Special Version Made By ME] for speed & better optimization
+- IO & TCP mostly all available & disabled some TCP that doesn't make sense
 - Always updated to the latest linux upstream version
 - There is soo much more.. I can't remember...You tell me... :D
 
@@ -47,7 +48,7 @@ Changelogs and Updates:-
 To know how much I update this kerenl.. just simply follow me and also I update it through my free time... so... expect some delays!
 Always check this link for latest stable releases :)
 
-[THEBOSS-Zeus N9 Kernel](https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/releases)
+[THEBOSS-Zeus N9 Kernel Download Link](https://github.com/THEBOSS619/Note9-Zeus-Oreo8.1/releases)
 
 
 # Notes
