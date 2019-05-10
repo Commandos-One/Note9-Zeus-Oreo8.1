@@ -1121,6 +1121,7 @@ void ion_client_destroy(struct ion_client *client)
 	struct ion_device *dev = client->dev;
 	struct rb_node *n;
 
+	pr_debug("%s: %d\n", __func__, __LINE__);
 	debugfs_remove_recursive(client->debug_root);
 	mutex_lock(&debugfs_mutex);
 	while ((n = rb_first(&client->handles))) {
