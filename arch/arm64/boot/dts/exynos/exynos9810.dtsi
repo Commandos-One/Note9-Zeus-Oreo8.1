@@ -4986,7 +4986,6 @@
 
 			min-freq = <455000>;
 			max-freq = <2002000>;
-			policy-max = <1794000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <3>;
@@ -5031,7 +5030,6 @@
 
 			min-freq = <598000>;
 			max-freq = <2964000>;
-			policy-max = <1794000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <5>;
