@@ -76,6 +76,8 @@ Module.symvers
 include/config
 include/generated
 arch/*/include/generated
+scripts/dtbtool_exynos
+scripts/dtbtool_exynos/dtbtool
 
 # stgit generated dirs
 patches-*
@@ -115,3 +117,7 @@ all.config
 
 # Kdevelop4
 *.kdev4
+
+# anykernel2
+/AnyKernel2
+*.zip

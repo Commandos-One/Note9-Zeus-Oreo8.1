@@ -1,5 +1,4 @@
-dtb-$(CONFIG_ARCH_EXYNOS) += exynos7-espresso.dtb
+dtb-$(CONFIG_CAMERA_CROWN) += exynos9810-crownlte_eur_open_26.dtb
 
-always		:= $(dtb-y)
-subdir-y	:= $(dts-dirs)
-clean-files	:= *.dtb
+always            := $(dtb-y) $(dtbo-y)
+clean-files       := *.dtb*

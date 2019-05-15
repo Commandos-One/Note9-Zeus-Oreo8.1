@@ -18,7 +18,104 @@
 #include <asm/pgtable.h>
 #include <asm/tlbflush.h>
 
+#include <linux/migrate.h>
+#include <linux/mm_inline.h>
+#include <linux/mmu_notifier.h>
+#include <asm/tlbflush.h>
+
 #include "internal.h"
+
+#ifdef CONFIG_CMA
+static struct page *__alloc_nonmovable_userpage(struct page *page,
+				unsigned long private, int **result)
+{
+	return alloc_page(GFP_HIGHUSER);
+}
+
+static bool __need_migrate_cma_page(struct page *page,
+				struct vm_area_struct *vma,
+				unsigned long start, unsigned int flags)
+{
+	if (!(flags & FOLL_GET))
+		return false;
+
+	if (get_pageblock_migratetype(page) != MIGRATE_CMA)
+		return false;
+
+	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) ==
+					VM_STACK_INCOMPLETE_SETUP)
+		return false;
+
+	if (!(flags & FOLL_CMA))
+		return false;
+
+	if (!PageLRU(page)) {
+		migrate_prep_local();
+		if (WARN_ON(!PageLRU(page))) {
+			__dump_page(page, "non-lru cma page");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+static int __isolate_cma_pinpage(struct page *page)
+{
+	struct zone *zone = page_zone(page);
+	struct lruvec *lruvec;
+
+	spin_lock_irq(zone_lru_lock(zone));
+	if (__isolate_lru_page(page, 0) != 0) {
+		spin_unlock_irq(zone_lru_lock(zone));
+		dump_page(page, "failed to isolate lru page");
+		return -EBUSY;
+	} else {
+		lruvec = mem_cgroup_page_lruvec(page, zone->zone_pgdat);
+		del_page_from_lru_list(page, lruvec, page_lru(page));
+	}
+	spin_unlock_irq(zone_lru_lock(zone));
+
+	return 0;
+}
+
+static int __migrate_cma_pinpage(struct page *page, struct vm_area_struct *vma)
+{
+	struct list_head migratepages;
+	int tries = 0;
+	int ret = 0;
+
+	INIT_LIST_HEAD(&migratepages);
+
+	list_add(&page->lru, &migratepages);
+	inc_zone_page_state(page, NR_ISOLATED_ANON + page_is_file_cache(page));
+
+	while (!list_empty(&migratepages) && tries++ < 5) {
+		ret = migrate_pages(&migratepages, __alloc_nonmovable_userpage,
+					NULL, 0, MIGRATE_SYNC, MR_CMA);
+	}
+
+	if (ret < 0) {
+		putback_movable_pages(&migratepages);
+		pr_err("%s: migration failed %p[%#lx]\n", __func__,
+					page, page_to_pfn(page));
+		return -EFAULT;
+	}
+
+	return 0;
+}
+#else
+static bool __need_migrate_cma_page(struct page *page,
+				struct vm_area_struct *vma,
+				unsigned long start, unsigned int flags)
+{
+	return false;
+}
+static int __migrate_cma_pinpage(struct page *page, struct vm_area_struct *vma)
+{
+	return 0;
+}
+#endif
 
 static struct page *no_page_table(struct vm_area_struct *vma,
 		unsigned int flags)
@@ -139,6 +236,35 @@ retry:
 		}
 	}
 
+	if (__need_migrate_cma_page(page, vma, address, flags)) {
+		if (__isolate_cma_pinpage(page)) {
+			pr_warn("%s: Failed to migrate a cma page\n", __func__);
+			pr_warn("because of racing with compaction.\n");
+			WARN(1, "Please try again get_user_pages()\n");
+			page = ERR_PTR(-EBUSY);
+			goto out;
+		}
+		pte_unmap_unlock(ptep, ptl);
+		if (__migrate_cma_pinpage(page, vma)) {
+			ptep = pte_offset_map_lock(mm, pmd, address, &ptl);
+		} else {
+			struct page *old_page = page;
+
+			migration_entry_wait(mm, pmd, address);
+			ptep = pte_offset_map_lock(mm, pmd, address, &ptl);
+			update_mmu_cache(vma, address, ptep);
+			pte = *ptep;
+			set_pte_at_notify(mm, address, ptep, pte);
+			page = vm_normal_page(vma, address, pte);
+			BUG_ON(!page);
+
+			pr_debug("cma: cma page %p[%#lx] migrated to new "
+					"page %p[%#lx]\n", old_page,
+					page_to_pfn(old_page),
+					page, page_to_pfn(page));
+		}
+	}
+
 	if (flags & FOLL_SPLIT && PageTransCompound(page)) {
 		int ret;
 		get_page(page);
@@ -161,6 +287,7 @@ retry:
 			pgmap = NULL;
 		}
 	}
+
 	if (flags & FOLL_TOUCH) {
 		if ((flags & FOLL_WRITE) &&
 		    !pte_dirty(pte) && !PageDirty(page))
@@ -368,8 +495,10 @@ static int faultin_page(struct task_struct *tsk, struct vm_area_struct *vma,
 	int ret;
 
 	/* mlock all present pages, but do not fault in new pages */
-	if ((*flags & (FOLL_POPULATE | FOLL_MLOCK)) == FOLL_MLOCK)
+	if ((*flags & (FOLL_POPULATE | FOLL_MLOCK)) == FOLL_MLOCK) {
+		pr_err("coremm:%s:%d:\n", __func__, __LINE__);
 		return -ENOENT;
+	}
 	if (*flags & FOLL_WRITE)
 		fault_flags |= FAULT_FLAG_WRITE;
 	if (*flags & FOLL_REMOTE)
@@ -385,6 +514,7 @@ static int faultin_page(struct task_struct *tsk, struct vm_area_struct *vma,
 
 	ret = handle_mm_fault(vma, address, fault_flags);
 	if (ret & VM_FAULT_ERROR) {
+		pr_err("coremm:%s:%d: ret %d addr %lx\n", __func__, __LINE__, ret, address);
 		if (ret & VM_FAULT_OOM)
 			return -ENOMEM;
 		if (ret & (VM_FAULT_HWPOISON | VM_FAULT_HWPOISON_LARGE))
@@ -402,6 +532,7 @@ static int faultin_page(struct task_struct *tsk, struct vm_area_struct *vma,
 	}
 
 	if (ret & VM_FAULT_RETRY) {
+		pr_err("coremm:%s:%d: ret %d addr %lx\n", __func__, __LINE__, ret, address);
 		if (nonblocking)
 			*nonblocking = 0;
 		return -EBUSY;
@@ -546,6 +677,9 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
 	if (!(gup_flags & FOLL_FORCE))
 		gup_flags |= FOLL_NUMA;
 
+	if ((gup_flags & FOLL_CMA) != 0)
+		migrate_prep();
+
 	do {
 		struct page *page;
 		unsigned int foll_flags = gup_flags;
@@ -559,14 +693,22 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
 				ret = get_gate_page(mm, start & PAGE_MASK,
 						gup_flags, &vma,
 						pages ? &pages[i] : NULL);
-				if (ret)
+				if (ret) {
+					pr_err("coremm:%s:%d: ret %d i %ld\n", __func__, __LINE__, ret, i);
 					return i ? : ret;
+				}
 				page_mask = 0;
 				goto next_page;
 			}
 
-			if (!vma || check_vma_flags(vma, gup_flags))
+			if (!vma || check_vma_flags(vma, gup_flags)) {
+				pr_err("coremm:%s:%d: vma %p i %ld\n", __func__, __LINE__, vma, i);
+				if (vma)
+					pr_err("coremm:%s:%d: vma s %lx e %lx f %lx i %ld\n",
+							__func__, __LINE__,
+							vma->vm_start, vma->vm_end, vma->vm_flags, i);
 				return i ? : -EFAULT;
+			}
 			if (is_vm_hugetlb_page(vma)) {
 				i = follow_hugetlb_page(mm, vma, pages, vmas,
 						&start, &nr_pages, i,
@@ -579,14 +721,18 @@ retry:
 		 * If we have a pending SIGKILL, don't keep faulting pages and
 		 * potentially allocating memory.
 		 */
-		if (unlikely(fatal_signal_pending(current)))
+		if (unlikely(fatal_signal_pending(current))) {
+			pr_err("coremm:%s:%d: i %ld\n", __func__, __LINE__, i);
 			return i ? i : -ERESTARTSYS;
+		}
 		cond_resched();
 		page = follow_page_mask(vma, start, foll_flags, &page_mask);
 		if (!page) {
 			int ret;
 			ret = faultin_page(tsk, vma, start, &foll_flags,
 					nonblocking);
+			if (ret)
+				pr_err("coremm:%s:%d: ret %d i %ld\n", __func__, __LINE__, ret, i);
 			switch (ret) {
 			case 0:
 				goto retry;
@@ -607,6 +753,9 @@ retry:
 			 */
 			goto next_page;
 		} else if (IS_ERR(page)) {
+			if (!(foll_flags & FOLL_DUMP)) {
+				pr_err("coremm:%s:%d: page %p i %ld\n", __func__, __LINE__, page, i);
+			}
 			return i ? i : PTR_ERR(page);
 		}
 		if (pages) {
@@ -803,6 +952,7 @@ static __always_inline long __get_user_pages_locked(struct task_struct *tsk,
 			BUG_ON(ret > 1);
 			if (!pages_done)
 				pages_done = ret;
+			pr_err("coremm:%s:%d: ret %ld\n", __func__, __LINE__, ret);
 			break;
 		}
 		nr_pages--;
@@ -870,6 +1020,9 @@ __always_inline long __get_user_pages_unlocked(struct task_struct *tsk, struct m
 {
 	long ret;
 	int locked = 1;
+
+	if ((gup_flags & FOLL_CMA) != 0)
+		migrate_prep();
 
 	down_read(&mm->mmap_sem);
 	ret = __get_user_pages_locked(tsk, mm, start, nr_pages, pages, NULL,
@@ -1513,7 +1666,6 @@ int __get_user_pages_fast(unsigned long start, int nr_pages, int write,
 	 * We do not adopt an rcu_read_lock(.) here as we also want to
 	 * block IPIs that come from THPs splitting.
 	 */
-
 	local_irq_save(flags);
 	pgdp = pgd_offset(mm, addr);
 	do {

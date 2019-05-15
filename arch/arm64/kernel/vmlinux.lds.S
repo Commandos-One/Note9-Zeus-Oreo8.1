@@ -123,6 +123,7 @@ SECTIONS
 		_text = .;
 		HEAD_TEXT
 	}
+	. = ALIGN(1<<PAGE_SHIFT);
 	.text : {			/* Real text segment		*/
 		_stext = .;		/* Text and read-only data	*/
 			__exception_text_start = .;
@@ -145,6 +146,41 @@ SECTIONS
 		. = ALIGN(16);
 		*(.got)			/* Global offset table		*/
 	}
+
+#ifdef CONFIG_UH_RKP
+	. = ALIGN(PAGE_SIZE);
+	.rkp.bitmap : {
+		rkp_pgt_bitmap = .;
+		*(.rkp.bitmap)
+	}
+	. = ALIGN(PAGE_SIZE);
+	.rkp.dblmap : {
+		rkp_map_bitmap = .;
+		*(.rkp.dblmap)
+	}
+#ifdef CONFIG_RKP_KDP
+	 /* Creating a new section to store task credentials */
+	. = ALIGN(PAGE_SIZE);
+	.rkp.prot.page : {
+		__rkp_ro_start = .;
+	}
+	. = __rkp_ro_start + 0x4000;
+	. = ALIGN(PAGE_SIZE);
+#endif /* CONFIG_RKP_KDP*/
+	. = ALIGN(PAGE_SIZE);
+	.empty_zero_page :{
+		*(.empty_zero_page)
+	}
+	. = ALIGN(PAGE_SIZE);
+	bm_pte = .;
+	. += PAGE_SIZE;
+	. = ALIGN(PAGE_SIZE);
+	bm_pmd = .;
+	. += PAGE_SIZE;
+	. = ALIGN(PAGE_SIZE);
+	bm_pud = .;
+	. += PAGE_SIZE;
+#endif
 
 	. = ALIGN(SEGMENT_ALIGN);
 	_etext = .;			/* End of text section */
@@ -185,8 +221,11 @@ SECTIONS
 	.altinstr_replacement : {
 		*(.altinstr_replacement)
 	}
-	.rela : ALIGN(8) {
+	. = ALIGN(0x1000);
+	.rela : {
+		__reloc_start = .;
 		*(.rela .rela*)
+		__reloc_end = .;
 	}
 
 	__rela_offset	= ABSOLUTE(ADDR(.rela) - KIMAGE_VADDR);
@@ -227,6 +266,11 @@ SECTIONS
 	. += IDMAP_DIR_SIZE;
 	swapper_pg_dir = .;
 	. += SWAPPER_DIR_SIZE;
+
+#ifdef CONFIG_ARM64_SW_TTBR0_PAN
+	reserved_ttbr0 = .;
+	. += RESERVED_TTBR0_SIZE;
+#endif
 
 #ifdef CONFIG_UNMAP_KERNEL_AT_EL0
 	tramp_pg_dir = .;

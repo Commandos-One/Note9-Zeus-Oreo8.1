@@ -54,6 +54,12 @@ obj-$(CONFIG_VEXPRESS_SYSCFG)	+= vexpress-syscfg.o
 obj-$(CONFIG_CXL_BASE)		+= cxl/
 obj-$(CONFIG_PANEL)             += panel.o
 
+obj-$(CONFIG_UID_SYS_STATS)	+= uid_sys_stats.o
+obj-$(CONFIG_MCU_IPC)           += mcu_ipc/
+obj-$(CONFIG_SEC_SIPC_MODEM_IF) += modem_v1/
+obj-$(CONFIG_SEC_MODEM_IF) 	+= modem_if/
+obj-$(CONFIG_MEMORY_STATE_TIME)	+= memory_state_time.o
+
 lkdtm-$(CONFIG_LKDTM)		+= lkdtm_core.o
 lkdtm-$(CONFIG_LKDTM)		+= lkdtm_bugs.o
 lkdtm-$(CONFIG_LKDTM)		+= lkdtm_heap.o
@@ -62,6 +68,12 @@ lkdtm-$(CONFIG_LKDTM)		+= lkdtm_rodata_objcopy.o
 lkdtm-$(CONFIG_LKDTM)		+= lkdtm_usercopy.o
 
 KCOV_INSTRUMENT_lkdtm_rodata.o	:= n
+
+# Secure OS Mobicore Interface
+obj-$(CONFIG_TRUSTONIC_TEE)	+= tzic64.o
+obj-$(CONFIG_TIMA_LOG)		+= tima_debug_log.o
+# DM-Verity
+obj-$(CONFIG_DM_VERITY)		+= dmverity_query.o
 
 OBJCOPYFLAGS :=
 OBJCOPYFLAGS_lkdtm_rodata_objcopy.o := \
