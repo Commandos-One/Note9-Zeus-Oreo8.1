@@ -702,6 +702,7 @@ struct rq {
 #endif
 	#define CPU_LOAD_IDX_MAX 5
 	unsigned long cpu_load[CPU_LOAD_IDX_MAX];
+	unsigned int nr_pinned_tasks;
 	unsigned int misfit_task;
 #ifdef CONFIG_NO_HZ_COMMON
 #ifdef CONFIG_SMP
@@ -1400,7 +1401,8 @@ struct sched_class {
 	void (*put_prev_task) (struct rq *rq, struct task_struct *p);
 
 #ifdef CONFIG_SMP
-	int  (*select_task_rq)(struct task_struct *p, int task_cpu, int sd_flag, int flags);
+	int  (*select_task_rq)(struct task_struct *p, int task_cpu, int sd_flag, int flags,
+			       int subling_count_hint);
 	void (*migrate_task_rq)(struct task_struct *p);
 
 	void (*task_woken) (struct rq *this_rq, struct task_struct *task);
