@@ -9175,7 +9175,8 @@ static inline void update_sg_lb_stats(struct lb_env *env,
 
 		if (cpu_overutilized(i))
 			*overutilized = true;
-			if (!sgs->group_misfit_task && rq->misfit_task)
+		
+		if (!sgs->group_misfit_task && rq->misfit_task)
 			sgs->group_misfit_task = capacity_of(i);
 	}
 
