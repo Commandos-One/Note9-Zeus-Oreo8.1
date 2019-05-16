@@ -5085,7 +5085,7 @@
 		sensors = <94>;		/* 0x5E */
 		sensing_mode = "balance";
 		hotplug_enable = <1>;
-		hotplug_in_threshold = <96>;
+		hotplug_in_threshold = <98>;
 		hotplug_out_threshold = <99>;
 		#include "exynos9810-tmu-sensor-conf.dtsi"
 	};
