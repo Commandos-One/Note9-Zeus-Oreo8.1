@@ -4942,19 +4942,19 @@
 
 		single_change_ms = <30>;
 		dual_change_ms = <30>;
-		quad_change_ms = <15>;
-		big_heavy_thr = <600>;
-		lit_heavy_thr = <180>;
-		big_idle_thr = <106>;
-		lit_idle_thr = <46>;
+		quad_change_ms = <30>;
+		big_heavy_thr = <700>;
+		lit_heavy_thr = <280>;
+		big_idle_thr = <206>;
+		lit_idle_thr = <146>;
 		ldsum_heavy_thr = <800>;
 		ldsum_enabled = <0>;
 		skip_lit_enabled = <0>;
-		cl_busy_ratio = <65>;
+		cl_busy_ratio = <75>;
 		/* single_freq is parsed from ECT */
-		dual_freq = <2314000>;
-		triple_freq = <1794000>;
-		quad_freq = <1794000>;
+		dual_freq = <2002000>;
+		triple_freq = <1586000>;
+		quad_freq = <1586000>;
 		cal-id = <ACPM_DVFS_CPUCL1>;
 	};
 
