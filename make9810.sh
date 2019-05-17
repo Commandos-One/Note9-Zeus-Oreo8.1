@@ -88,8 +88,8 @@ oreo_oc_crown () {
 	sed -i 's/upscale_ratio_table = < 80 1261000 90 >;/upscale_ratio_table = < 90 1261000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	sed -i 's/unsigned long arg_cpu_max_c2 = 2704000;/unsigned long arg_cpu_max_c2 = 2964000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
 	sed -i 's/static unsigned long arg_cpu_max_c1 = 1794000;/static unsigned long arg_cpu_max_c1 = 2002000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
-	sed -i 's/quad_freq = <1794000>;/quad_freq = <1794000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	sed -i 's/triple_freq = <1794000>;/triple_freq = <1794000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	sed -i 's/triple_freq = <1794000>;/triple_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	sed -i 's/dual_freq = <2314000>;/dual_freq = <2106000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	sed -i 's/2158000/2106000/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 }
@@ -317,77 +317,37 @@ elif [ "$2" == "oreo" ]; then
 	elif [ "$1" == "crownlte" ] && [ "$4" == "oc" ]; then
 		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
 		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
+		sed -i 's/upscale_ratio_table = < 80 1248000 90 1456000 95 >;/upscale_ratio_table = < 85 1248000 90 1456000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/upscale_ratio_table = < 80 1261000 90 >;/upscale_ratio_table = < 90 1261000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/unsigned long arg_cpu_max_c2 = 2704000;/unsigned long arg_cpu_max_c2 = 2964000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
+	    sed -i 's/static unsigned long arg_cpu_max_c1 = 1794000;/static unsigned long arg_cpu_max_c1 = 2002000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
+	    sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/triple_freq = <1794000>;/triple_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/dual_freq = <2314000>;/dual_freq = <2106000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/2158000/2106000/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 		oreo_oc_crown
 	elif [ "$1" == "crownlte" ] && [ "$4" == "oc" ]; then
 		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
 		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
-		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+		sed -i 's/upscale_ratio_table = < 80 1248000 90 1456000 95 >;/upscale_ratio_table = < 85 1248000 90 1456000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/upscale_ratio_table = < 80 1261000 90 >;/upscale_ratio_table = < 90 1261000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/unsigned long arg_cpu_max_c2 = 2704000;/unsigned long arg_cpu_max_c2 = 2964000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
+	    sed -i 's/static unsigned long arg_cpu_max_c1 = 1794000;/static unsigned long arg_cpu_max_c1 = 2002000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
+	    sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/triple_freq = <1794000>;/triple_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/dual_freq = <2314000>;/dual_freq = <2106000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/2158000/2106000/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	elif [ "$1" == "crownlte" ] && [ "$4" != "uc" ] && [ "$4" != "uc" ]; then
 		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
 		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
-	else
-		echo "Invalid device or OC configuration detected... Please check your inputs."
-	fi
-elif [ "$2" == "9.0-aosp" ]; then
-	if [ "$1" == "starlte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-S9/-Endurance-Kernel-S9-AOSP-OC-"$PIE_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-starlte_defconfig
-		pie_oc_star
-	elif [ "$1" == "starlte" ] && [ "$4" == "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9/-Endurance-Kernel-S9-AOSP-UC-"$PIE_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-starlte_defconfig
-		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$STAR_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	elif [ "$1" == "starlte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9/-Endurance-Kernel-S9-AOSP-"$PIE_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-starlte_defconfig
-	elif [ "$1" == "star2lte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-S9+/-Endurance-Kernel-S9+-AOSP-OC-"$PIE_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-star2lte_defconfig
-		pie_oc_star
-	elif [ "$1" == "star2lte" ] && [ "$4" == "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9+/-Endurance-Kernel-S9+-AOSP-UC-"$PIE_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-star2lte_defconfig
-		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$STAR_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	elif [ "$1" == "star2lte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9+/-Endurance-Kernel-S9+-AOSP-"$PIE_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-star2lte_defconfig
-	elif [ "$1" == "crownlte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-OC-"$PIE_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-		pie_oc_crown
-#	elif [ "$1" == "crownlte" ] && [ "$4" == "uc" ]; then
-#		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$PIE_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-#		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$PIE_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
-#		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586Idk I have it disabled too,000>;/g' "$STAR_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	elif [ "$1" == "crownlte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-"$PIE_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-"$PIE_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
-	else
-		echo "Invalid device or OC configuration detected... Please check your inputs."
-	fi
-elif [ "$2" == "gsi" ]; then
-	if [ "$1" == "starlte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-S9/-Endurance-Kernel-S9-GSI-OC-"$OREO_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-starlte_defconfig
-		sed -i 's/upscale_ratio_table = < 80 1248000 90 1456000 95 >;/upscale_ratio_table = < 80 >;/g' "$STAR_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-		aosp_oc_star
-	elif [ "$1" == "starlte" ] && [ "$4" == "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9/-Endurance-Kernel-S9-GSI-UC-"$OREO_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-starlte_calikernel_defconfig
-		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$STAR_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	elif [ "$1" == "starlte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9/-Endurance-Kernel-S9-GSI-"$OREO_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-starlte_calikernel_defconfig
-	elif [ "$1" == "star2lte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-S9+/-Endurance-Kernel-S9+-GSI-OC-"$OREO_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-star2lte_calikernel_defconfig
-		aosp_oc_star
-	elif [ "$1" == "star2lte" ] && [ "$4" == "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9+/-Endurance-Kernel-S9+-GSI-UC-"$OREO_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-star2lte_calikernel_defconfig
-		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$STAR_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	elif [ "$1" == "star2lte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
-		sed -i "s/-Endurance-Kernel-S9+/-Endurance-Kernel-S9+-GSI-"$OREO_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-star2lte_calikernel_defconfig
-	elif [ "$1" == "crownlte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
-		# This is an inconsistency I should perhaps investigate.
-		oreo_oc_crown
-#	elif [ "$1" == "crownlte" ] && [ "$4" == "uc" ]; then
-#		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-#		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
-#		sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
-	elif [ "$1" == "crownlte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
+		sed -i 's/upscale_ratio_table = < 80 1248000 90 1456000 95 >;/upscale_ratio_table = < 85 1248000 90 1456000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/upscale_ratio_table = < 80 1261000 90 >;/upscale_ratio_table = < 90 1261000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/unsigned long arg_cpu_max_c2 = 2704000;/unsigned long arg_cpu_max_c2 = 2964000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
+	    sed -i 's/static unsigned long arg_cpu_max_c1 = 1794000;/static unsigned long arg_cpu_max_c1 = 2002000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
+	    sed -i 's/quad_freq = <1794000>;/quad_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/triple_freq = <1794000>;/triple_freq = <1586000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/dual_freq = <2314000>;/dual_freq = <2106000>;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
+	    sed -i 's/2158000/2106000/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	else
 		echo "Invalid device or OC configuration detected... Please check your inputs."
 	fi
