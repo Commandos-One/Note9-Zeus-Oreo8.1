@@ -303,8 +303,8 @@ elif [ "$2" == "oreo" ]; then
 	    sed -i 's/2158000/2106000/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 		oreo_oc_crown
 	elif [ "$1" == "crownlte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
+		sed -i "s/-Endurance-Kernel-N9/-THEBOSS-Zeus-OC-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
+		sed -i "s/-Endurance-Kernel-N9/-THEBOSS-Zeus-OC-N9-UC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
 		sed -i 's/upscale_ratio_table = < 80 1248000 90 1456000 95 >;/upscale_ratio_table = < 85 1248000 90 1456000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	    sed -i 's/upscale_ratio_table = < 80 1261000 90 >;/upscale_ratio_table = < 90 1261000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	    sed -i 's/unsigned long arg_cpu_max_c2 = 2704000;/unsigned long arg_cpu_max_c2 = 2964000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
