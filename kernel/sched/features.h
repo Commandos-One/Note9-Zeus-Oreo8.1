@@ -74,3 +74,34 @@ SCHED_FEAT(RT_RUNTIME_SHARE, true)
 SCHED_FEAT(LB_MIN, false)
 SCHED_FEAT(ATTACH_AGE_LOAD, true)
 
+/*
+ * UtilEstimation. Use estimated CPU utilization.
+ */
+SCHED_FEAT(UTIL_EST, true)
+
+/*
+ * Energy aware scheduling. Use platform energy model to guide scheduling
+ * decisions optimizing for energy efficiency.
+ */
+#ifdef CONFIG_DEFAULT_USE_ENERGY_AWARE
+SCHED_FEAT(ENERGY_AWARE, true)
+#else
+SCHED_FEAT(ENERGY_AWARE, false)
+#endif
+
+/*
+ * SchedTune. Use Performance/Energy filtering function to evaluate the trade
+ * off between energy consumption and performance impact when comparing
+ * previous and next candidate CPUs.
+ */
+SCHED_FEAT(ENERGY_FILTER, false)
+
+SCHED_FEAT(HISI_FILTER, true)
+
+#ifdef CONFIG_SCHED_EHMP
+SCHED_FEAT(EXYNOS_HMP, true)
+SCHED_FEAT(EXYNOS_HMP_OM, true)
+#else
+SCHED_FEAT(EXYNOS_HMP, false)
+SCHED_FEAT(EXYNOS_HMP_OM, false)
+#endif

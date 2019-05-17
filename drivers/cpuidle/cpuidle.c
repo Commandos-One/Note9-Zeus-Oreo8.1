@@ -97,7 +97,17 @@ static int find_deepest_state(struct cpuidle_driver *drv,
 	return ret;
 }
 
-#ifdef CONFIG_SUSPEND
+/* Set the current cpu to use the deepest idle state, override governors */
+void cpuidle_use_deepest_state(bool enable)
+{
+	struct cpuidle_device *dev;
+
+	preempt_disable();
+	dev = cpuidle_get_device();
+	dev->use_deepest_state = enable;
+	preempt_enable();
+}
+
 /**
  * cpuidle_find_deepest_state - Find the deepest available idle state.
  * @drv: cpuidle driver for the given CPU.
@@ -109,6 +119,7 @@ int cpuidle_find_deepest_state(struct cpuidle_driver *drv,
 	return find_deepest_state(drv, dev, UINT_MAX, 0, false);
 }
 
+#ifdef CONFIG_SUSPEND
 static void enter_freeze_proper(struct cpuidle_driver *drv,
 				struct cpuidle_device *dev, int index)
 {
@@ -193,9 +204,10 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	}
 
 	/* Take note of the planned idle state. */
-	sched_idle_set_state(target_state);
+	sched_idle_set_state(target_state, index);
 
 	trace_cpu_idle_rcuidle(index, dev->cpu);
+	exynos_ss_cpuidle(drv->states[index].desc, index, 0, ESS_FLAG_IN);
 	time_start = ns_to_ktime(local_clock());
 
 	stop_critical_timings();
@@ -203,10 +215,12 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	start_critical_timings();
 
 	time_end = ns_to_ktime(local_clock());
+	exynos_ss_cpuidle(drv->states[index].desc, entered_state,
+			(int)ktime_to_us(ktime_sub(time_end, time_start)), ESS_FLAG_OUT);
 	trace_cpu_idle_rcuidle(PWR_EVENT_EXIT, dev->cpu);
 
 	/* The cpu is no longer idle or about to enter idle. */
-	sched_idle_set_state(NULL);
+	sched_idle_set_state(NULL, -1);
 
 	if (broadcast) {
 		if (WARN_ON_ONCE(!irqs_disabled()))
@@ -367,10 +381,13 @@ int cpuidle_enable_device(struct cpuidle_device *dev)
 
 	if (dev->enabled)
 		return 0;
+	
+	if (!cpuidle_curr_governor)
+		return -EIO;
 
 	drv = cpuidle_get_cpu_driver(dev);
 
-	if (!drv || !cpuidle_curr_governor)
+	if (!drv)
 		return -EIO;
 
 	if (!dev->registered)
@@ -380,9 +397,11 @@ int cpuidle_enable_device(struct cpuidle_device *dev)
 	if (ret)
 		return ret;
 
-	if (cpuidle_curr_governor->enable &&
-	    (ret = cpuidle_curr_governor->enable(drv, dev)))
-		goto fail_sysfs;
+	if (cpuidle_curr_governor->enable) {
+		ret = cpuidle_curr_governor->enable(drv, dev);
+		if (ret)
+			goto fail_sysfs;
+	}
 
 	smp_wmb();
 
@@ -642,6 +661,63 @@ static inline void latency_notifier_init(struct notifier_block *n)
 
 #endif /* CONFIG_SMP */
 
+/* during hotplug out in progress, disable cpuidle for faster hotplug out */
+static int exynos_cpuidle_hp_out_callback(struct notifier_block *nfb,
+					unsigned long action, void *hcpu)
+{
+	unsigned int cpu = (unsigned long)hcpu;
+	struct cpuidle_device *dev = per_cpu(cpuidle_devices, cpu);
+
+	if (dev) {
+		switch (action) {
+		case CPU_DOWN_PREPARE:
+			cpuidle_disable_device(dev);
+			break;
+
+		case CPU_DOWN_FAILED:
+			cpuidle_enable_device(dev);
+			break;
+		}
+	}
+	return NOTIFY_OK;
+}
+
+static struct notifier_block __refdata cpuidle_hp_out_notifier = {
+	.notifier_call = exynos_cpuidle_hp_out_callback,
+	.priority = INT_MAX,	/* want to be called first */
+};
+
+
+static int exynos_cpuidle_hp_in_callback(struct notifier_block *nfb,
+					unsigned long action, void *hcpu)
+{
+	unsigned int cpu = (unsigned long)hcpu;
+	struct cpuidle_device *dev = per_cpu(cpuidle_devices, cpu);
+
+	if (dev) {
+		switch (action) {
+		case CPU_ONLINE:
+			cpuidle_enable_device(dev);
+			break;
+		}
+	}
+	return NOTIFY_OK;
+}
+
+static struct notifier_block __refdata cpuidle_hp_in_notifier = {
+	.notifier_call = exynos_cpuidle_hp_in_callback,
+	.priority = INT_MIN,	/* want to be called last */
+};
+
+static int __init cpuidle_hotcpu_init(void)
+{
+	register_hotcpu_notifier(&cpuidle_hp_out_notifier);
+	register_hotcpu_notifier(&cpuidle_hp_in_notifier);
+
+	return 0;
+}
+device_initcall(cpuidle_hotcpu_init);
+
 /**
  * cpuidle_init - core initializer
  */
@@ -661,5 +737,5 @@ static int __init cpuidle_init(void)
 	return 0;
 }
 
-module_param(off, int, 0444);
+module_param(off, int, 0644);
 core_initcall(cpuidle_init);
