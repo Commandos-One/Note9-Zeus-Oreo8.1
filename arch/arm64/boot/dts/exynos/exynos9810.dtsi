@@ -4943,10 +4943,10 @@
 		single_change_ms = <30>;
 		dual_change_ms = <30>;
 		quad_change_ms = <30>;
-		big_heavy_thr = <700>;
-		lit_heavy_thr = <280>;
-		big_idle_thr = <206>;
-		lit_idle_thr = <146>;
+		big_heavy_thr = <600>;
+		lit_heavy_thr = <180>;
+		big_idle_thr = <106>;
+		lit_idle_thr = <46>;
 		ldsum_heavy_thr = <800>;
 		ldsum_enabled = <0>;
 		skip_lit_enabled = <0>;
