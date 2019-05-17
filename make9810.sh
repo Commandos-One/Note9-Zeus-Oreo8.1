@@ -199,22 +199,7 @@ if [ "$1" == "starlte" ] || [ "$1" == "star2lte" ]; then
 		git checkout Endurance-Kernel-P
 		git reset --hard
 	elif [ "$2" == "oreo" ]; then
-		git checkout Endurance-Kernel
-		git reset --hard
-	elif [ "$2" == "9.0-aosp" ]; then
-		git checkout Endurance-Kernel-P-AOSP
-		git reset --hard
-	elif [ "$2" == "gsi" ]; then
-		git checkout Endurance-Kernel-GSI
-		git reset --hard
-	elif [ "$2" == "8.1-aosp" ]; then
-		git checkout Endurance-Kernel-AOSP
-		git reset --hard
-	elif [ "$2" == "apgk" ]; then
-		git checkout tw80-android-o
-		git reset --hard
-	elif [ "$2" == "els" ]; then
-		git checkout isolated
+		git checkout THEBOSS-Zeus
 		git reset --hard
 	else
 		git checkout "$2"
@@ -226,15 +211,6 @@ elif [ "$1" == "crownlte" ]; then
 		git reset --hard
 	elif [ "$2" == "oreo" ]; then
 		git checkout THEBOSS-Zeus
-		git reset --hard
-	elif [ "$2" == "9.0-aosp" ]; then
-		git checkout Endurance-Kernel-P-AOSP
-		git reset --hard
-	elif [ "$2" == "gsi" ]; then
-		git checkout Endurance-Kernel-GSI
-		git reset --hard
-	elif [ "$2" == "els" ]; then
-		git checkout isolated
 		git reset --hard
 	else
 		git checkout "$2"
@@ -315,8 +291,8 @@ elif [ "$2" == "oreo" ]; then
 	elif [ "$1" == "star2lte" ] && [ "$4" != "oc" ] && [ "$4" != "uc" ]; then
 		sed -i "s/-Endurance-Kernel-S9+/-Endurance-Kernel-S9+-"$OREO_VERSION"/g" "$STAR_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-star2lte_calikernel_defconfig
 	elif [ "$1" == "crownlte" ] && [ "$4" == "oc" ]; then
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
-		sed -i "s/-Endurance-Kernel-N9/-Endurance-Kernel-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
+		sed -i "s/-Endurance-Kernel-N9/-THEBOSS-Zeus-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/configs/exynos9810-crownlte_defconfig
+		sed -i "s/-Endurance-Kernel-N9/-THEBOSS-Zeus-N9-OC-"$OREO_VERSION"/g" "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/include/dt-bindings/soc/samsung/crown_conf.h
 		sed -i 's/upscale_ratio_table = < 80 1248000 90 1456000 95 >;/upscale_ratio_table = < 85 1248000 90 1456000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	    sed -i 's/upscale_ratio_table = < 80 1261000 90 >;/upscale_ratio_table = < 90 1261000 95 >;/g' "$CROWN_KERNEL_DIRECTORY"arch/arm64/boot/dts/exynos/exynos9810.dtsi
 	    sed -i 's/unsigned long arg_cpu_max_c2 = 2704000;/unsigned long arg_cpu_max_c2 = 2964000;/g' "$CROWN_KERNEL_DIRECTORY"drivers/cpufreq/exynos-acme.c
