@@ -4915,7 +4915,7 @@
 			device_type = "freqvar-tune";
 			shared-cpus = "0-3";
 
-			boost_table = < 0 >;
+			boost_table = < 100 598000 65 715000 35 832000 25 949000 15 1053000 0 >;
 			up_rate_limit_table = < 7500 >;
 			down_rate_limit_table = < 1000 >;
 			upscale_ratio_table = < 80 1248000 90 1456000 95 >;
@@ -4924,7 +4924,7 @@
 			device_type = "freqvar-tune";
 			shared-cpus = "4-7";
 
-			boost_table = < 0 >;
+			boost_table = < 25 858000 20 962000 15 1261000 0 >;
 			up_rate_limit_table = < 7500 >;
 			down_rate_limit_table = < 1000 >;
 			upscale_ratio_table = < 80 1261000 95 >;
@@ -4940,13 +4940,13 @@
 	hotplug_governor {
 		compatible = "exynos, hotplug_governor";
 
-		single_change_ms = <30>;
-		dual_change_ms = <30>;
+		single_change_ms = <20>;
+		dual_change_ms = <25>;
 		quad_change_ms = <30>;
-		big_heavy_thr = <600>;
-		lit_heavy_thr = <180>;
-		big_idle_thr = <106>;
-		lit_idle_thr = <46>;
+		big_heavy_thr = <650>;
+		lit_heavy_thr = <200>;
+		big_idle_thr = <150>;
+		lit_idle_thr = <100>;
 		ldsum_heavy_thr = <800>;
 		ldsum_enabled = <0>;
 		skip_lit_enabled = <0>;
@@ -5028,8 +5028,8 @@
 			dm-type = <DM_CPU_CL1>;
 
 			min-freq = <598000>;
-			max-freq = <1794000>;
-			policy-max = <1794000>;
+			max-freq = <2496000>;
+			policy-max = <2496000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <5>;
