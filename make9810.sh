@@ -230,6 +230,8 @@ export SUBARCH=arm64
 
 if [ "$3" == "gcc-8" ]; then
 	export CROSS_COMPILE="ccache "$TOOLCHAINS_DIRECTORY"gcc-arm-8.3-2019.03-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-"
+elif [ "$3" == "gcc-9.1" ]; then
+	export CROSS_COMPILE="ccache "$TOOLCHAINS_DIRECTORY"aarch64-elf-gcc/bin/aarch64-elf-"
 elif [ "$3" == "gcc-4.9" ]; then
 	export CROSS_COMPILE="ccache "$TOOLCHAINS_DIRECTORY"aarch64-linux-android-4.9/bin/aarch64-linux-android-"
 else
